@@ -219,6 +219,8 @@ const [newPassword, setNewPassword] = useState("");
                     <th>Balance</th>
                     <th>Refer By</th>
                     <th>State</th>
+                    <th>Role</th>
+                    <th>Created By</th>
                     <th>Action</th>
                     <th>Remove</th>
 
@@ -269,6 +271,9 @@ const [newPassword, setNewPassword] = useState("");
                             alert("Failed to toggle state!");
                           }
                         }} className="btn btn-sm btn-outline-danger">{user.state}</button></td>
+
+                        <td>{user.role || 'user'}</td>
+                        <td>{user.created_by || '-'}</td>
 
                         <td className="text-center flex flex-col md:flex-row md:justify-center gap-2">
                           <button

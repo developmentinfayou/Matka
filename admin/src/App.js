@@ -34,6 +34,9 @@ import CommissionList from './Pages/CommsionList';
 import UserRefferList from './Pages/UserRefferList';
 import CommissionPayList from './Pages/CommissionPayList';
 import EditWhatsApp from './Components/EditWhatsapp';
+import AddAgent from './Pages/AddAgent';
+import ViewAgents from './Pages/ViewAgents';
+
 
 
 const basePath = "public/administrator"
@@ -49,6 +52,9 @@ function App() {
           <Route path="user/active-user-list" element={<ManageUsers />} />
           <Route path="user/inactive-user-list" element={<InactiveUsers />} />
           <Route path="user/today-user-list" element={<TodayUsers />} />
+          <Route path="user/add-agent" element={<AddAgent />} />
+          <Route path="user/view-agents" element={<ViewAgents />} />
+
 
           <Route path="user/add-user" element={<AddUser />} />
 

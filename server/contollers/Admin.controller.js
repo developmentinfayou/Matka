@@ -12,36 +12,75 @@ export const AdminLogin = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const [rows] = await req.db.query("SELECT mobile, otp FROM SETTINGS LIMIT 1");
+    // First check in SETTINGS for main admin
+    const [adminRows] = await req.db.query(
+      "SELECT mobile, otp FROM SETTINGS LIMIT 1"
+    );
 
-    if (!rows || rows.length === 0) {
-      return res.status(404).json({ success: false, message: "Admin not found" });
+    if (adminRows.length > 0) {
+      const admin = adminRows[0];
+      if (username === admin.mobile && password === admin.otp) {
+        const token = jwt.sign(
+          { username: admin.mobile, role: "admin" },
+          process.env.JWT_SECRET,
+          { expiresIn: "8h" }
+        );
+
+        return res.json({
+          success: true,
+          message: "Admin login successful",
+          role: "admin",
+          username: admin.mobile,
+          token,
+        });
+      }
     }
 
-    const admin = rows[0];
+    // Check in USERS table by mobile OR name
+    const [userRows] = await req.db.query(
+      "SELECT * FROM users WHERE (MOBILE = ? OR NAME = ?) AND PASSWORD = ?",
+      [username, username, password]
+    );
 
-    if (username === admin.mobile && password === admin.otp) {
-      const token = jwt.sign(
-        { username: admin.mobile, role: "admin" },
-        process.env.JWT_SECRET,
-        { expiresIn: "8h" }
-      );
+    if (userRows.length > 0) {
+      const user = userRows[0];
+      const userRole = (user.role || 'user').toLowerCase();
+      
+      // Only allow agent login
+      if (userRole === 'agent') {
+        const token = jwt.sign(
+          { username: user.MOBILE, role: 'agent' },
+          process.env.JWT_SECRET,
+          { expiresIn: "8h" }
+        );
 
-      return res.json({
-        success: true,
-        message: "Admin login successful",
-        role: "admin",
-        username: admin.mobile,
-        token,
+        return res.json({
+          success: true,
+          message: "Agent login successful",
+          role: 'agent',
+          username: user.MOBILE,
+          token,
+        });
+      }
+      
+      return res.status(403).json({ 
+        success: false, 
+        message: "Access denied. Only admin and agents can access admin panel." 
       });
-    } else {
-      return res.status(401).json({ success: false, message: "Invalid credentials" });
     }
+
+    return res.status(401).json({ 
+      success: false, 
+      message: "Invalid credentials" 
+    });
   } catch (err) {
-    console.error("AdminLogin error:", err);
+    console.error("Login error:", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
+
+
 
 export const ChangePasswordAdmin = async (req, res) => {
     const { oldPassword, newPassword } = req.body;
@@ -863,75 +902,75 @@ export const updateWhatsApp = async (req, res) => {
   
 
 
-export const GetAllUsers = async (req, res) => {
-    try {
-        // Users table se specific fields fetch karna
-        const [rows] = await req.db.query(
-            'SELECT id, mobile, name , wallet, refer_by, state, refer_by , password FROM users'
-        );
+// export const GetAllUsers = async (req, res) => {
+//     try {
+//         // Users table se specific fields fetch karna
+//         const [rows] = await req.db.query(
+//             'SELECT id, mobile, name , wallet, refer_by, state, refer_by , password FROM users'
+//         );
 
-        res.status(200).json(rows);
-    } catch (err) {
-        console.error('Error fetching users:', err);
-        res.status(500).json({ error: 'Failed to fetch users' });
-    }
-};
+//         res.status(200).json(rows);
+//     } catch (err) {
+//         console.error('Error fetching users:', err);
+//         res.status(500).json({ error: 'Failed to fetch users' });
+//     }
+// };
 
 
-export const AdminAddUser = async (req, res) => {
-    try {
-      const { name, phone, referby, dob, password } = req.body;
+// export const AdminAddUser = async (req, res) => {
+//     try {
+//       const { name, phone, referby, dob, password } = req.body;
 
-        if (!name || !phone  || !password) {
-      return res.status(400).json({ message: "Required fields missing" });
-    }
+//         if (!name || !phone  || !password) {
+//       return res.status(400).json({ message: "Required fields missing" });
+//     }
     
-        // 1. Check if phone already exists
-        const [existingUser] = await req.db.query(
-          "SELECT * FROM users WHERE MOBILE = ?",
-          [phone]
-        );
-        if (existingUser.length > 0) {
-          return res.status(400).json({ message: "User is already registered" });
-        }
+//         // 1. Check if phone already exists
+//         const [existingUser] = await req.db.query(
+//           "SELECT * FROM users WHERE MOBILE = ?",
+//           [phone]
+//         );
+//         if (existingUser.length > 0) {
+//           return res.status(400).json({ message: "User is already registered" });
+//         }
     
-        // 2. Check referby validity (if provided)
-        if (referby) {
-          if (referby === phone) {
-            return res
-              .status(400)
-              .json({ message: "ReferBy number cannot be same as user's phone" });
-          }
+//         // 2. Check referby validity (if provided)
+//         if (referby) {
+//           if (referby === phone) {
+//             return res
+//               .status(400)
+//               .json({ message: "ReferBy number cannot be same as user's phone" });
+//           }
     
-          const [refUser] = await req.db.query(
-            "SELECT * FROM users WHERE MOBILE = ?",
-            [referby]
-          );
+//           const [refUser] = await req.db.query(
+//             "SELECT * FROM users WHERE MOBILE = ?",
+//             [referby]
+//           );
     
-          if (refUser.length === 0) {
-            return res
-              .status(400)
-              .json({ message: "Invalid ReferBy number. User does not exist." });
-          }
-        }
+//           if (refUser.length === 0) {
+//             return res
+//               .status(400)
+//               .json({ message: "Invalid ReferBy number. User does not exist." });
+//           }
+//         }
     
-        // 3. Insert into users table
-          // 3. Insert into users table
-    const query = `
-    INSERT INTO users (NAME, MOBILE, REFER_BY, PASSWORD)
-    VALUES (?, ?, ?, ?)
-  `;
-  const values = [name, phone, referby || null, password];
+//         // 3. Insert into users table
+//           // 3. Insert into users table
+//     const query = `
+//     INSERT INTO users (NAME, MOBILE, REFER_BY, PASSWORD)
+//     VALUES (?, ?, ?, ?)
+//   `;
+//   const values = [name, phone, referby || null, password];
 
     
-        await req.db.query(query, values);
+//         await req.db.query(query, values);
     
-        return res.status(200).json({ message: "User added successfully" });
-      } catch (err) {
-        console.error("Error inserting user:", err);
-        return res.status(500).json({ message: "Server error" });
-      }
-};
+//         return res.status(200).json({ message: "User added successfully" });
+//       } catch (err) {
+//         console.error("Error inserting user:", err);
+//         return res.status(500).json({ message: "Server error" });
+//       }
+// };
 
 
 export const getAllBetsGameLoad = async (req, res) => {
@@ -1267,4 +1306,165 @@ export const getWinningNumberold = async (req, res) => {
       });
     }
   };
+
+// Add Agent (Only Admin can do this)
+export const AddAgent = async (req, res) => {
+  try {
+    const { name, phone, password } = req.body;
+    const adminRole = req.user?.role;
+
+    // Only admin can add agents
+    if (adminRole !== 'admin') {
+      return res.status(403).json({ 
+        message: "Only admin can add agents" 
+      });
+    }
+
+    if (!name || !phone || !password) {
+      return res.status(400).json({ message: "All fields required" });
+    }
+
+    // Check if already exists
+    const [existing] = await req.db.query(
+      "SELECT * FROM users WHERE MOBILE = ?",
+      [phone]
+    );
+
+    if (existing.length > 0) {
+      return res.status(400).json({ message: "Agent already exists" });
+    }
+
+    // Insert agent
+    await req.db.query(
+      "INSERT INTO users (NAME, MOBILE, PASSWORD, role, created_by) VALUES (?, ?, ?, 'agent', ?)",
+      [name, phone, password, req.user.username]
+    );
+
+    return res.status(200).json({ 
+      message: "Agent added successfully" 
+    });
+  } catch (err) {
+    console.error("Error adding agent:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Update AdminAddUser to support hierarchy
+export const AdminAddUser = async (req, res) => {
+  try {
+    const { name, phone, referby, password } = req.body;
+    const userRole = req.user?.role;
+    const createdBy = req.user?.username;
+
+    if (!name || !phone || !password) {
+      return res.status(400).json({ message: "Required fields missing" });
+    }
+
+    // Check permissions
+    if (userRole === 'user') {
+      return res.status(403).json({ 
+        message: "Users cannot add other users" 
+      });
+    }
+
+    // Check if phone already exists
+    const [existingUser] = await req.db.query(
+      "SELECT * FROM users WHERE MOBILE = ?",
+      [phone]
+    );
+
+    if (existingUser.length > 0) {
+      return res.status(400).json({ 
+        message: "User already registered" 
+      });
+    }
+
+    // Validate referby
+    if (referby) {
+      if (referby === phone) {
+        return res.status(400).json({ 
+          message: "ReferBy cannot be same as user's phone" 
+        });
+      }
+
+      const [refUser] = await req.db.query(
+        "SELECT * FROM users WHERE MOBILE = ?",
+        [referby]
+      );
+
+      if (refUser.length === 0) {
+        return res.status(400).json({ 
+          message: "Invalid ReferBy number" 
+        });
+      }
+    }
+
+    // Insert user with role='user'
+    const query = `
+      INSERT INTO users (NAME, MOBILE, REFER_BY, PASSWORD, role, created_by)
+      VALUES (?, ?, ?, ?, 'user', ?)
+    `;
+    
+    await req.db.query(query, [name, phone, referby || null, password, createdBy]);
+
+    return res.status(200).json({ 
+      message: "User added successfully" 
+    });
+  } catch (err) {
+    console.error("Error adding user:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Get Users based on role hierarchy
+export const GetAllUsers = async (req, res) => {
+  try {
+    const userRole = req.user?.role;
+    const username = req.user?.username;
+
+    let query = 'SELECT id, mobile, name, wallet, refer_by, state, IFNULL(role, "user") as role, IFNULL(created_by, "-") as created_by, password FROM users';
+    let params = [];
+
+    if (userRole === 'admin') {
+      query += ' WHERE 1=1';
+    } else if (userRole === 'agent') {
+      query += ' WHERE created_by = ? AND IFNULL(role, "user") = "user"';
+      params.push(username);
+    } else {
+      return res.status(403).json({ 
+        error: 'Access denied' 
+      });
+    }
+
+    const [rows] = await req.db.query(query, params);
+    res.status(200).json(rows);
+  } catch (err) {
+    console.error('Error fetching users:', err);
+    res.status(500).json({ error: 'Failed to fetch users' });
+  }
+};
+
+
+// Get All Agents (Only for Admin)
+export const GetAllAgents = async (req, res) => {
+  try {
+    const userRole = req.user?.role;
+
+    if (userRole !== 'admin') {
+      return res.status(403).json({ 
+        error: 'Only admin can view agents' 
+      });
+    }
+
+    const [rows] = await req.db.query(
+      'SELECT id, mobile, name, wallet, state, IFNULL(role, "user") as role, IFNULL(created_by, "-") as created_by FROM users WHERE IFNULL(role, "user") = "agent"'
+    );
+
+    res.status(200).json(rows);
+  } catch (err) {
+    console.error('Error fetching agents:', err);
+    res.status(500).json({ error: 'Failed to fetch agents' });
+  }
+};
+
   

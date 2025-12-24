@@ -605,6 +605,168 @@ export const BetGameJodi = async (req, res) => {
   }
 };
 
+export const BetGameSingle = async (req, res) => {
+  console.log(req.user, "auth se middleware wale");
+  const mobile = req.user.mobile;
+  console.log(mobile, "user ka number");
+  
+  try {
+    const { filledBets, gameId, totalPoints } = req.body;
+    console.log("Request body single:", req.body);
+
+    if (!filledBets || filledBets.length === 0) {
+      return res.status(400).json({ success: false, message: "No bets provided." });
+    }
+
+    const gameName = await getGameNameById(req.db, gameId);
+    const gamePlay = await getGamePlayById(req.db, gameId);
+    
+    if (gamePlay.toLowerCase() === "unchecked") {
+      return res.status(400).json({ success: false, message: "Game play timed out." });
+    }
+
+    try {
+      await deductWalletBalance(req.db, mobile, totalPoints, gameName);
+    } catch (err) {
+      return res.status(400).json({ success: false, message: err.message });
+    }
+
+    const [gameRows] = await req.db.query("SELECT TIME2 FROM games WHERE ID = ?", [gameId]);
+    const gameTIME2 = gameRows.length ? gameRows[0]?.TIME2 : null;
+    const betDateTime = getAdjustedBetDateTime(gameId, gameTIME2);
+
+    const result = filledBets.map(bet => [
+      bet.number,
+      Number(bet.value),
+      gameId,
+      "Single",
+      mobile,
+      gameName,
+      betDateTime
+    ]);
+
+    console.log("Transformed result for insert:", result);
+
+    const query = `INSERT INTO bets (number, point, game_id, type, phone, game, DATE_TIME) VALUES ?`;
+    const [insertResult] = await req.db.query(query, [result]);
+    console.log("Insert result:", insertResult);
+
+    res.status(200).json({ success: true, insertedRows: insertResult.affectedRows });
+
+  } catch (err) {
+    console.error('Error saving single bets:', err);
+    res.status(500).json({ error: 'Failed to save single bets' });
+  }
+};
+
+export const BetGameSinglePatti = async (req, res) => {
+  console.log(req.user, "auth se middleware wale");
+  const mobile = req.user.mobile;
+  console.log(mobile, "user ka number");
+  
+  try {
+    const { filledBets, gameId, totalPoints } = req.body;
+    console.log("Request body single patti:", req.body);
+
+    if (!filledBets || filledBets.length === 0) {
+      return res.status(400).json({ success: false, message: "No bets provided." });
+    }
+
+    const gameName = await getGameNameById(req.db, gameId);
+    const gamePlay = await getGamePlayById(req.db, gameId);
+    
+    if (gamePlay.toLowerCase() === "unchecked") {
+      return res.status(400).json({ success: false, message: "Game play timed out." });
+    }
+
+    try {
+      await deductWalletBalance(req.db, mobile, totalPoints, gameName);
+    } catch (err) {
+      return res.status(400).json({ success: false, message: err.message });
+    }
+
+    const [gameRows] = await req.db.query("SELECT TIME2 FROM games WHERE ID = ?", [gameId]);
+    const gameTIME2 = gameRows.length ? gameRows[0]?.TIME2 : null;
+    const betDateTime = getAdjustedBetDateTime(gameId, gameTIME2);
+
+    const result = filledBets.map(bet => [
+      bet.number,
+      Number(bet.value),
+      gameId,
+      "SinglePatti",
+      mobile,
+      gameName,
+      betDateTime
+    ]);
+
+    console.log("Transformed result for insert:", result);
+
+    const query = `INSERT INTO bets (number, point, game_id, type, phone, game, DATE_TIME) VALUES ?`;
+    const [insertResult] = await req.db.query(query, [result]);
+    console.log("Insert result:", insertResult);
+
+    res.status(200).json({ success: true, insertedRows: insertResult.affectedRows });
+
+  } catch (err) {
+    console.error('Error saving single patti bets:', err);
+    res.status(500).json({ error: 'Failed to save single patti bets' });
+  }
+};
+
+export const BetGameDoublePatti = async (req, res) => {
+  console.log(req.user, "auth se middleware wale");
+  const mobile = req.user.mobile;
+  console.log(mobile, "user ka number");
+  
+  try {
+    const { filledBets, gameId, totalPoints } = req.body;
+    console.log("Request body double patti:", req.body);
+
+    if (!filledBets || filledBets.length === 0) {
+      return res.status(400).json({ success: false, message: "No bets provided." });
+    }
+
+    const gameName = await getGameNameById(req.db, gameId);
+    const gamePlay = await getGamePlayById(req.db, gameId);
+    
+    if (gamePlay.toLowerCase() === "unchecked") {
+      return res.status(400).json({ success: false, message: "Game play timed out." });
+    }
+
+    try {
+      await deductWalletBalance(req.db, mobile, totalPoints, gameName);
+    } catch (err) {
+      return res.status(400).json({ success: false, message: err.message });
+    }
+
+    const [gameRows] = await req.db.query("SELECT TIME2 FROM games WHERE ID = ?", [gameId]);
+    const gameTIME2 = gameRows.length ? gameRows[0]?.TIME2 : null;
+    const betDateTime = getAdjustedBetDateTime(gameId, gameTIME2);
+
+    const result = filledBets.map(bet => [
+      bet.number,
+      Number(bet.value),
+      gameId,
+      "DoublePatti",
+      mobile,
+      gameName,
+      betDateTime
+    ]);
+
+    console.log("Transformed result for insert:", result);
+
+    const query = `INSERT INTO bets (number, point, game_id, type, phone, game, DATE_TIME) VALUES ?`;
+    const [insertResult] = await req.db.query(query, [result]);
+    console.log("Insert result:", insertResult);
+
+    res.status(200).json({ success: true, insertedRows: insertResult.affectedRows });
+
+  } catch (err) {
+    console.error('Error saving double patti bets:', err);
+    res.status(500).json({ error: 'Failed to save double patti bets' });
+  }
+};
+
 
 export const BetGameManual = async (req, res) => {
 
@@ -1217,6 +1379,27 @@ export const UpdateBetsWithResults = async (req, resultRow) => {
           expectedResult = Jodi;
           status = bet.number == Jodi ? "Win" : "Loss";
           break;
+    
+        case "Single": {
+          const singleValue = Manual.toString().slice(-1);
+          expectedResult = singleValue;
+          status = bet.number == singleValue ? "Win" : "Loss";
+          break;
+        }
+        
+        case "SinglePatti": {
+          const singlePattiValue = Manual.toString();
+          expectedResult = singlePattiValue;
+          status = bet.number == singlePattiValue ? "Win" : "Loss";
+          break;
+        }  
+
+        case "DoublePatti": {
+          const doublePattiValue = Manual.toString();
+          expectedResult = doublePattiValue;
+          status = bet.number == doublePattiValue ? "Win" : "Loss";
+          break;
+        }  
 
         case "Manual":
           expectedResult = Manual; // ex: "56"
@@ -1267,29 +1450,31 @@ export const UpdateBetsWithResults = async (req, resultRow) => {
 
       if (status === "Win") {
         updatedBets.push({
-          gameId: GAME_ID,
-          betId: bet.ID,
-          type: bet.TYPE,
+          GAME_ID: bet.GAME_ID,
+          ID: bet.ID,      
+          TYPE: bet.TYPE, 
           number: bet.number,
-          point: bet.point,
-          user: bet.phone,
+          POINT: bet.point,  
+          PHONE: bet.phone, 
+          GAME: bet.GAME,      
           expectedResult,
-          status
+          STATUS: status
         });
       }
 
       // isme bhi dekhna hoga ki LossBets me kya kya bhejna hai with kya kya vale name hai 
       if (status === "Loss") {
         LossBets.push({
-          gameId: GAME_ID,
+          GAME_ID: bet.GAME_ID, 
           DATE_TIME: bet.DATE_TIME,
-          betId: bet.ID,
-          type: bet.TYPE,
+          ID: bet.ID,        
+          TYPE: bet.TYPE,
           number: bet.number,
-          point: bet.point,
-          user: bet.phone,
+          POINT: bet.point,
+          PHONE: bet.phone,
+          GAME: bet.GAME,
           expectedResult,
-          status
+          STATUS: status
         });
       }
 
@@ -1300,9 +1485,9 @@ export const UpdateBetsWithResults = async (req, resultRow) => {
 
 
     // Process only win bets for wallet update
-    // await ProcessWinningBets(req, updatedBets);
+     await ProcessWinningBets(req, updatedBets);
 
-    // await ProcessLossBets(req, LossBets);
+     await ProcessLossBets(req, LossBets);
 
 
 
@@ -1361,9 +1546,9 @@ export const CalculateGameResults = async (req, res) => {
       const updateQuery = `
         UPDATE RESULT 
         SET GAME_NAME = ?, RESULT1 = ?, RESULT2 = ?, 
-            Jodi = ?, Manual = ?, andarHaraf = ?, baharHaraf = ?, 
+            Jodi = ?, \`Manual\` = ?, andarHaraf = ?, baharHaraf = ?, 
             Crossing = ?, CopyPaste = ?
-        WHERE GAME_ID = ? AND DATE(DATE) = ?
+        WHERE GAME_ID = ? AND DATE(\`DATE\`) = ?
       `;
 
       await req.db.query(updateQuery, [
@@ -1384,7 +1569,7 @@ export const CalculateGameResults = async (req, res) => {
       // 🆕 Agar entry nahi hai toh INSERT karo
       const insertQuery = `
         INSERT INTO RESULT 
-        (GAME_ID, GAME_NAME, RESULT1, RESULT2, Jodi, Manual, andarHaraf, baharHaraf, Crossing, CopyPaste, DATE)
+        (GAME_ID, GAME_NAME, RESULT1, RESULT2, Jodi, \`Manual\`, andarHaraf, baharHaraf, Crossing, CopyPaste, \`DATE\`)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `;
 
@@ -2202,5 +2387,113 @@ export const resultHistory = async (req, res) => {
       success: false,
       message: "Internal Server Error ❌",
     });
+  }
+};
+
+
+export const deleteBet = async (req, res) => {
+  try {
+    const { betId } = req.body;
+    const mobile = req.user.mobile;
+
+    if (!betId) {
+      return res.status(400).json({ success: false, message: "Bet ID required" });
+    }
+
+    // 1. Bet fetch karo
+    const [bets] = await req.db.query(
+      "SELECT * FROM bets WHERE ID = ? AND phone = ?",
+      [betId, mobile]
+    );
+
+    if (bets.length === 0) {
+      return res.status(404).json({ success: false, message: "Bet not found" });
+    }
+
+    const bet = bets[0];
+
+    // 2. Check status
+    if (bet.STATUS !== null) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Cannot delete bet - result already declared" 
+      });
+    }
+
+    // 3. Game ka TIME2 fetch karo
+    const [games] = await req.db.query(
+      "SELECT TIME2 FROM games WHERE ID = ?",
+      [bet.GAME_ID]
+    );
+
+    if (games.length === 0) {
+      return res.status(404).json({ success: false, message: "Game not found" });
+    }
+
+    const closeTime = games[0].TIME2; // "07:32:00"
+
+    // 4. Bet ka DATE_TIME parse karo
+    const betDateTime = new Date(bet.DATE_TIME);
+    const betDate = betDateTime.toISOString().split('T')[0]; // "2025-12-18"
+    
+    // Close time ko bet ke date ke saath combine karo
+    let closeDateTime = new Date(`${betDate}T${closeTime}`);
+    
+    // Agar close time bet time se pehle hai, toh next day ka close time hai
+    if (closeDateTime <= betDateTime) {
+      // Next day ka close time
+      closeDateTime.setDate(closeDateTime.getDate() + 1);
+    }
+    
+    // 10 minutes subtract karo
+    const deletionDeadline = new Date(closeDateTime.getTime() - 10 * 60 * 1000);
+    
+    const now = new Date();
+
+    // 5. Check deletion window
+    if (now >= deletionDeadline) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Cannot delete bet - deletion window closed (10 min before game close)" 
+      });
+    }
+
+    // 6. Delete bet
+    await req.db.query("DELETE FROM bets WHERE ID = ?", [betId]);
+
+    // 7. Refund points
+    const [users] = await req.db.query(
+      "SELECT wallet FROM users WHERE mobile = ?",
+      [mobile]
+    );
+
+    if (users.length > 0) {
+      const currentWallet = parseFloat(users[0].wallet);
+      const refundAmount = parseFloat(bet.point);
+      const newWallet = currentWallet + refundAmount;
+
+      await req.db.query(
+        "UPDATE users SET wallet = ? WHERE mobile = ?",
+        [newWallet, mobile]
+      );
+
+      await insertAccountEntry(req.db, {
+        mobile,
+        paymode: `${bet.GAME} - Bet Cancelled`,
+        point: refundAmount,
+        closing: newWallet,
+        status: "Refund"
+      });
+    }
+
+    return res.status(200).json({ 
+      success: true, 
+      message: "Bet deleted successfully and amount refunded",
+      refundAmount: bet.point
+    });
+
+  } catch (err) {
+    console.error("Error deleting bet:", err);
+    return res.status(500).json({ success: false, message: "Server error" });
   }
 };

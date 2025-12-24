@@ -1,4 +1,3 @@
-// components/Layout.js
 import { Outlet , useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -8,9 +7,7 @@ import axiosInstance from "../Utils/axiosInstance";
 import { useEffect } from "react";
 import { useState } from "react";
 
-
 function Layout() {
-
   const [isAdmin, setIsAdmin] = useState(false);
   const backUrl = process.env.REACT_APP_BACKEND_URL;
   const navigate = useNavigate();
@@ -18,11 +15,9 @@ function Layout() {
   useEffect(() => {
     const checkAdmin = async () => {
       try {
-
-
         const res = await axiosInstance.get(`${backUrl}/admin/admin-detail`);
 
-        if (res.data && res.data.user.role === "admin") {
+        if (res.data && (res.data.user.role === "admin" || res.data.user.role === "agent")) {
           setIsAdmin(true);
         } else {
           setIsAdmin(false);
@@ -35,18 +30,15 @@ function Layout() {
     };
 
     checkAdmin();
-  }, [backUrl]);
-
+  }, [backUrl, navigate]);
 
   return (
     <div className="min-h-screen flex flex-col overflow-x-hidden">
      {isAdmin && <Header />}
       <main className="flex-grow ">
       <ToastContainer position="top-center" autoClose={2000} />
-
         <Outlet />
       </main>
-      {/* <Footer /> */}
     </div>
   );
 }

@@ -853,6 +853,8 @@ CREATE TABLE `USERS` (
   `GOOGLE_ID` varchar(250) DEFAULT NULL,
   `IMAGE` varchar(250) DEFAULT NULL,
   `REFER_BY` varchar(250) DEFAULT NULL,
+  `role` varchar(20) NOT NULL DEFAULT 'user',
+  `created_by` varchar(255) DEFAULT NULL,
   `DATE` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 

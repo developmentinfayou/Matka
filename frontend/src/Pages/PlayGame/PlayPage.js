@@ -64,19 +64,25 @@ import React, { useState } from 'react'
 import Jodi from './Jodi';
 import Manual from './Manual';
 import Haraf from './Haraf';
+import Single from './Single'; 
 import Crossing from './Crossing';
 import CopyPaste from './CopyPaste';
+import SinglePatti from './SinglePatti';
+import DoublePatti from './DoublePatti';
 
 const PlayPage = () => {
   const tabs = [
+    { key: "single", label: "Single" },
     { key: "jodi", label: "Jodi" },
     // { key: "manual", label: "Manual" },
-    { key: "harraf", label: "Harraf" },
-    { key: "crossing", label: "Crossing" },
-    { key: "copy", label: "Copy Paste" },
+    { key: "singlepatti", label: "Single Patti" },
+    { key: "doublepatti", label: "Double Patti" },
+    { key: "harraf", label: "Triple Patti" },
+    // { key: "crossing", label: "Crossing" },
+    // { key: "copy", label: "Copy Paste" },
   ];
-
-  const [active, setActive] = useState("jodi");
+  
+  const [active, setActive] = useState("single");
 
 
   return (
@@ -105,9 +111,16 @@ const PlayPage = () => {
         <div className="h-[2px] bg-gradient-to-r from-transparent via-[#c31432] to-transparent" />
 
         <div className="p-4">
+          
+          {active === "single" && <Single />}
+
           {active === "jodi" && <Jodi />}
 
           {/* {active === "manual" && <Manual />} */}
+
+          {active === "singlepatti" && <SinglePatti />}
+
+          {active === "doublepatti" && <DoublePatti />}
 
           {active === "harraf" && <Haraf />}
 

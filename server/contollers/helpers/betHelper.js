@@ -51,16 +51,6 @@ export const getAdjustedBetDateTime = (gameId, gameTIME2) => {
     console.log("Game ID:", typeof gameId, "TIME2:", gameTIME2);
     console.log("Initial adjusted datetime:", adjusted);
   
-    if (Number(gameId) === 5 && gameTIME2) {
-      const [h2, m2, s2] = gameTIME2.split(":").map(Number);
-  
-      // If current time is before TIME2 (early morning)
-      if (now.getHours() < h2 || (now.getHours() === h2 && now.getMinutes() < m2)) {
-        // shift date to previous day, keep same time
-        adjusted.setDate(adjusted.getDate() - 1);
-      }
-    }
-  
     // Format to "YYYY-MM-DD HH:MM:SS"
     const yyyy = adjusted.getFullYear();
     const mm = String(adjusted.getMonth() + 1).padStart(2, "0");

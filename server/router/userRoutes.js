@@ -1,5 +1,5 @@
 import express from 'express';
-import { AddBankDetails, AddMoney, AdminUpdateBetsStatus, ApplicationForm , BetGameCopyPaste, BetGameCrossing, BetGameHarraf, BetGameJodi, BetGameManual, CalculateGameResults, deleteGame, DeleteOldResult, deleteUser, editProfileUser, GetAllGame, GetAllReferredUsersAdmin, GetBankDetails, getCommissions, getDepositList, GetReferredUsers, getUserBetHistory, getUserInfo, getWithdrawList, MSMEForm, payCommission, resultHistory, SendOTP, userAccountStatement, UserDeposit, UserLogin, UserRegister, UserShop, UserWithdraw } from '../contollers/User.controller.js';
+import { AddBankDetails, AddMoney, AdminUpdateBetsStatus, ApplicationForm , BetGameCopyPaste, BetGameCrossing, BetGameHarraf, BetGameJodi, BetGameManual, BetGameSingle, BetGameSinglePatti, BetGameDoublePatti, CalculateGameResults, deleteGame, DeleteOldResult, deleteUser, editProfileUser, GetAllGame, GetAllReferredUsersAdmin, GetBankDetails, getCommissions, getDepositList, GetReferredUsers, getUserBetHistory, getUserInfo, getWithdrawList, MSMEForm, payCommission, resultHistory, SendOTP, userAccountStatement, UserDeposit, UserLogin, UserRegister, UserShop, UserWithdraw, deleteBet } from '../contollers/User.controller.js';
 import upload from '../middlewares/upload.js';
 import { authMiddleware } from '../middlewares/authMiddleware.js';
 
@@ -41,6 +41,9 @@ router.post('/delete-user', authMiddleware ,  deleteUser);
 
 
 router.post('/bet-game-jodi', authMiddleware,  BetGameJodi);
+router.post('/bet-game-single', authMiddleware, BetGameSingle);
+router.post('/bet-game-singlepatti', authMiddleware, BetGameSinglePatti);
+router.post('/bet-game-doublepatti', authMiddleware, BetGameDoublePatti);
 router.post('/bet-game-manual',authMiddleware,  BetGameManual);
 router.post('/bet-game-harraf',authMiddleware,  BetGameHarraf);
 router.post('/bet-game-crossing',authMiddleware,  BetGameCrossing);
@@ -73,7 +76,7 @@ router.get('/wallet-history', authMiddleware, userAccountStatement);
 
 
 router.post('/update-bets-status', authMiddleware , AdminUpdateBetsStatus  );
-
+router.post('/delete-bet', authMiddleware, deleteBet);
 
 router.post('/bet-game-result', authMiddleware ,  CalculateGameResults);
 

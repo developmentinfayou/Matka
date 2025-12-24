@@ -1,6 +1,7 @@
 import express from 'express';
-import { AddNewGame, AdminAddUser, adminDashboardData, AdminLogin, AdminUpdatePassword, approveDeposits, approveWithdraws, ChangePasswordAdmin, declareResultList, editGame, getAdminDetails, getAllBetsGameLoad, GetAllUsers, GetQr, GetUPI, getWhatsApp, getWinningNumber, toggleUserState, UpdateQr, UpdateUPI, updateWallet, updateWhatsApp, winningReportList } from '../contollers/Admin.controller.js';
+import { AddNewGame, AdminAddUser, adminDashboardData, AdminLogin, AdminUpdatePassword, approveDeposits, approveWithdraws, ChangePasswordAdmin, declareResultList, editGame, getAdminDetails, getAllBetsGameLoad, GetAllUsers, GetQr, GetUPI, getWhatsApp, getWinningNumber, toggleUserState, UpdateQr, UpdateUPI, updateWallet, updateWhatsApp, winningReportList, AddAgent, GetAllAgents } from '../contollers/Admin.controller.js';
 import { authMiddleware } from '../middlewares/authMiddleware.js';
+import { checkRole } from '../middlewares/roleMiddleware.js';
 import { qrMulter } from '../middlewares/qrMulter.js';
 
 
@@ -17,9 +18,11 @@ router.get('/admin-dashboard-data', authMiddleware , adminDashboardData )
 
 
 
-router.get('/get-users', authMiddleware , GetAllUsers)
+router.get('/get-users', authMiddleware, checkRole('admin', 'agent'), GetAllUsers);
+router.post('/admin-add-user', authMiddleware, checkRole('admin', 'agent'), AdminAddUser);
 
-router.post('/admin-add-user', authMiddleware , AdminAddUser)
+router.post('/add-agent', authMiddleware, checkRole('admin'), AddAgent);
+router.get('/get-agents', authMiddleware, checkRole('admin'), GetAllAgents);
 
 
 

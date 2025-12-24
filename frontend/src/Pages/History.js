@@ -1,39 +1,66 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../Utils/axiosInstance";
+import { toast } from "react-toastify";
 
 const History = () => {
   const [bets, setBets] = useState([]);
-  const [filter, setFilter] = useState("pending"); // default tab
+  const [filter, setFilter] = useState("pending");
+  const [loading, setLoading] = useState(false);
   const backUrl = process.env.REACT_APP_BACKEND_URL;
 
-  useEffect(() => {
-    const fetchBetHistory = async () => {
-      try {
-        const res = await axiosInstance.get(`${backUrl}/api/bet-game-history`);
-        setBets(res?.data?.bets || []);
-      } catch (error) {
-        console.error("Error fetching bet history:", error);
-      }
-    };
+  const fetchBetHistory = async () => {
+    try {
+      const res = await axiosInstance.get(`${backUrl}/api/bet-game-history`);
+      setBets(res?.data?.bets || []);
+    } catch (error) {
+      console.error("Error fetching bet history:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchBetHistory();
   }, [backUrl]);
 
-  // Filter bets based on selected tab
+  const handleDeleteBet = async (betId) => {
+    if (!window.confirm("Are you sure you want to delete this bet?")) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await axiosInstance.post(`${backUrl}/api/delete-bet`, {
+        betId: betId,
+      });
+
+      if (res.data.success) {
+        toast.success(res.data.message);
+        fetchBetHistory(); // Refresh bet list
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to delete bet");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const filteredBets =
     filter === "pending"
-      ? bets.filter((b) => !b.status) // Pending = status null/empty
-      : bets.filter((b) => b.status); // Declared = status present
+      ? bets.filter((b) => !b.status)
+      : bets.filter((b) => b.status);
 
   return (
     <div>
       <div className="bg-white p-3 rounded shadow-sm">
         <div className="d-flex justify-content-between flex-wrap gap-3">
-          {/* Pending Bet */}
           <div className="flex-fill text-center">
             <button
-               className={`w-full py-2 px-4 rounded ${filter === "pending" ? "bg-black text-white" : "bg-white text-black border border-gray-300"
-               }`}
+              className={`w-full py-2 px-4 rounded ${
+                filter === "pending"
+                  ? "bg-black text-white"
+                  : "bg-white text-black border border-gray-300"
+              }`}
               onClick={() => setFilter("pending")}
             >
               Pending Bet
@@ -43,11 +70,13 @@ const History = () => {
             </p>
           </div>
 
-          {/* Declared Bet */}
           <div className="flex-fill text-center">
             <button
-              className={`w-full py-2 px-4 rounded ${filter === "declared" ? "bg-black text-white" : "bg-white text-black border border-gray-300"
-                }`}
+              className={`w-full py-2 px-4 rounded ${
+                filter === "declared"
+                  ? "bg-black text-white"
+                  : "bg-white text-black border border-gray-300"
+              }`}
               onClick={() => setFilter("declared")}
             >
               Declared Bet
@@ -68,11 +97,12 @@ const History = () => {
                 <th>Type</th>
                 <th>Number</th>
                 <th>Points</th>
-                <th className="grid"><span className="text-[10px]">(Bet type)</span>Result</th>
+                <th className="grid">
+                  <span className="text-[10px]">(Bet type)</span>Result
+                </th>
                 <th>Win_amount</th>
-
                 <th>Status</th>
-                {/* <th>Action</th> */}
+                {filter === "pending" && <th>Action</th>}
               </tr>
             </thead>
             <tbody>
@@ -81,42 +111,52 @@ const History = () => {
                   <tr key={bet.id}>
                     <td>{index + 1}</td>
                     <td>
-  {new Date(bet.date_time).toLocaleString("en-IN", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true          // ✅ AM/PM format
-  })}
-</td>
-
+                      {new Date(bet.date_time).toLocaleString("en-IN", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                      })}
+                    </td>
                     <td>{bet.game}</td>
                     <td>{bet.type}</td>
                     <td>{bet.number}</td>
                     <td>{bet.point}</td>
-
-
                     <td>{bet.result ? bet?.result : "-"}</td>
                     <td>{bet.win_amount}</td>
-
                     <td>
                       {bet.status ? (
-                        <span className={`badge ${bet.status === "Win" ? "bg-success" : "bg-danger"}`}>{bet.status}</span>
+                        <span
+                          className={`badge ${
+                            bet.status === "Win" ? "bg-success" : "bg-danger"
+                          }`}
+                        >
+                          {bet.status}
+                        </span>
                       ) : (
                         <span className="badge bg-warning text-dark">
                           Pending
                         </span>
                       )}
                     </td>
-                    {/* <td>
-                      <button className="btn btn-sm btn-primary">View</button>
-                    </td> */}
+                    {filter === "pending" && (
+                      <td>
+                        <button
+                          className="btn btn-sm btn-danger"
+                          onClick={() => handleDeleteBet(bet.id)}
+                          disabled={loading}
+                        >
+                          {loading ? "..." : "Delete"}
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="8" className="text-center">
+                  <td colSpan={filter === "pending" ? "10" : "9"} className="text-center">
                     No {filter} bets found.
                   </td>
                 </tr>
