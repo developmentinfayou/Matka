@@ -8,7 +8,7 @@ const AboutPage = () => {
       जनमित्रम के सन्दर्भ में
     </h1>
     <p className="text-lg md:text-xl text-gray-800 leading-relaxed">
-      दैनन्दिनी जीवन में अनिवार्य उपयोग एवं उपभोग आने वाले खाद्य एवं अन्य वस्तुओं को 
+      दैनन्दिनी जीवन में अनिवार्य उपयोग एवं उपभोग आने वाले खाद्य एवं अन्य  को 
       <span className="text-blue-600 font-medium"> थोक भाव में खरीदकर</span>, 
       <span className="text-blue-600 font-medium"> भण्डारण</span>, 
       <span className="text-blue-600 font-medium"> निर्माण</span>, 
