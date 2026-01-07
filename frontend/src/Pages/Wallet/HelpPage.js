@@ -64,7 +64,7 @@ const HelpPage = () => {
         </p>
 
         {/* Video Tutorial */}
-        <div className="text-center mt-6">
+        <div className="text-center mt-6 hidden">
           <p className="text-sm text-blue-600 font-medium mb-2">
             👇👽 DEPOSIT AND WITHDRAW सीखने के लिए Video आइकन पे क्लिक करें 👽
           </p>

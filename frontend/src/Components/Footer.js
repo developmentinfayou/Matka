@@ -121,7 +121,7 @@ const Footer = () => {
     </li>
     
     {/* <!-- Wallet --> */}
-    <li className="menu">
+    <li className="menu hidden">
       <div className="inactive iconmenu">
         <Link to="/wallet" className="flex flex-col items-center text-gray-600 hover:text-blue-600 py-2">
           <i className="bi bi-wallet2 text-xl"></i>

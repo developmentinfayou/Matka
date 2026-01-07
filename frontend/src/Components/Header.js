@@ -194,7 +194,7 @@ const Header = () => {
                 </li> */}
 
                 {/* Refer & Earn */}
-                <li>
+                {/* <li>
                   <Link
                     to="/refercode"
                     className="flex items-center gap-3 px-3 py-2 rounded-md bg-yellow-300 text-black"
@@ -208,10 +208,10 @@ const Header = () => {
                     </div>
                     <div className="flex-1">Refer & Earn</div>
                   </Link>
-                </li>
+                </li> */}
 
                 {/* Refer List */}
-                <li>
+                {/* <li>
                   <Link
                     to="/refer-list"
                     className="flex items-center gap-3 px-3 py-2 rounded-md bg-white text-black"
@@ -225,7 +225,7 @@ const Header = () => {
                     </div>
                     <div className="flex-1">Refer List</div>
                   </Link>
-                </li>
+                </li> */}
 
                 {/* Terms and Condition */}
                 <li>

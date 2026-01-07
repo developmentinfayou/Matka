@@ -154,8 +154,8 @@ const HomePage = () => {
 
 
       <div style={{ backgroundImage: "url(/images/name.jpg)", backgroundRepeat: "no-repeat", backgroundSize: "cover" }} className="w-full bg-yellow-100 border-4 border-[#4481eb] text-center py-2 px-2 mt-2 shadow-md">
-        <p className="text-xl sm:text-lg font-semibold text-white">NAME: {userinfo?.name}</p>
-        <p className="text-xl sm:text-lg font-semibold text-white">REFER_ID: {userinfo?.mobile}</p>
+        <p className="text-xl sm:text-lg font-semibold text-white">Name: {userinfo?.name}</p>
+        <p className="text-xl sm:text-lg font-semibold text-white">Mobile: {userinfo?.mobile}</p>
       </div>
 
       <div className="flexx hidden w-full px-2 pt-2 justify-between text-nowrap">
@@ -227,7 +227,7 @@ const HomePage = () => {
 
 
 
-      <div style={{ backgroundImage: "url(/images/home-back.jpeg)", backgroundRepeat: "no-repeat", backgroundSize: "cover" }} className="w-full bg-yellow-100 border-4 border-[#4481eb] text-center py-2 px-2 mt-2 shadow-md">
+      <div style={{ backgroundImage: "url(/images/home-back.jpeg)", backgroundRepeat: "no-repeat", backgroundSize: "cover" }} className="w-full bg-yellow-100 border-4 border-[#4481eb] text-center py-2 px-2 mt-2 shadow-md hidden">
         <h6 className="text-lg sm:text-base font-semibold text-white">🔥 भरोसे का एक ही नाम 🔥</h6>
         <h6 className="text-lg sm:text-base font-semibold text-white">🙏 888 Solution.shop 🙏</h6>
         <spna className="font-bold"> नोट -: मटका मेला के जो नियम है वह एक बार जरूर देखें धन्यवाद!!</spna>
@@ -297,7 +297,7 @@ const HomePage = () => {
 
       </div>
 
-      <div className="relative group  ">
+      <div className="relative group hidden  ">
         {/* Main Banner Container */}
         <div className="relative bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 p-0.5 rounded-2xl shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-[1.02]">
 
@@ -316,7 +316,7 @@ const HomePage = () => {
             </div>
 
             {/* Content */}
-            <div className="relative z-10 text-center">
+            <div className="relative z-10 text-center ">
 
               {/* Icon Container */}
 

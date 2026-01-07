@@ -5,7 +5,9 @@ export default function AddAgent() {
     const [formData, setFormData] = useState({
         name: "",
         phone: "",
-        password: ""
+        password: "",
+        share:"",
+        commission:""
     });
     const [loading, setLoading] = useState(false);
 
@@ -19,7 +21,7 @@ export default function AddAgent() {
         try {
             const response = await axiosInstance.post(`/admin/add-agent`, formData);
             alert(response.data.message || "Agent added successfully");
-            setFormData({ name: "", phone: "", password: "" });
+            setFormData({ name: "", phone: "", password: "" , share:"", commission:""});
         } catch (err) {
             alert(err.response?.data?.message || "Failed to add agent");
         } finally {
@@ -43,6 +45,17 @@ export default function AddAgent() {
                     <label className="block text-sm font-medium mb-1">Password</label>
                     <input name="password" type="text" value={formData.password} onChange={handleChange} required className="w-full p-2 border rounded-lg" />
                 </div>
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">Share</label>
+                    <input name="share" type="number" value={formData.share} onChange={handleChange} className="w-full p-2 border rounded-lg" />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">Commission</label>
+                    <input name="commission" type="number" value={formData.commission} onChange={handleChange} className="w-full p-2 border rounded-lg" />
+                </div>
+
                 <button type="submit" disabled={loading} className={`w-full py-2 rounded-lg ${loading ? "bg-gray-400" : "bg-blue-600 text-white"}`}>
                     {loading ? "Please wait..." : "Add Agent"}
                 </button>

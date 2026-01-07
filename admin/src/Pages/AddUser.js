@@ -11,7 +11,7 @@ export default function AddUser() {
     const [formData, setFormData] = useState({
         name: "",
         phone: "",
-        referby: "",
+        // referby: "",
         dob: "",
         password: ""  // new password field
     });
@@ -51,7 +51,7 @@ export default function AddUser() {
             setFormData({
                 name: "",
                 phone: "",
-                referby: "",
+                // referby: "",
                 dob: "",
                 password: generatePassword(),
             });
@@ -102,7 +102,7 @@ export default function AddUser() {
                     />
                 </div>
 
-                <div>
+                {/* <div>
                     <label className="block text-sm font-medium mb-1">Refer By (Optional)</label>
                     <input
                         name="referby"
@@ -112,7 +112,7 @@ export default function AddUser() {
                         onChange={handleChange}
                         className="w-full p-2 border rounded-lg"
                     />
-                </div>
+                </div> */}
 
                
 

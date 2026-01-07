@@ -1310,7 +1310,7 @@ export const getWinningNumberold = async (req, res) => {
 // Add Agent (Only Admin can do this)
 export const AddAgent = async (req, res) => {
   try {
-    const { name, phone, password } = req.body;
+    const { name, phone, password , share , commission } = req.body;
     const adminRole = req.user?.role;
 
     // Only admin can add agents
@@ -1336,8 +1336,8 @@ export const AddAgent = async (req, res) => {
 
     // Insert agent
     await req.db.query(
-      "INSERT INTO users (NAME, MOBILE, PASSWORD, role, created_by) VALUES (?, ?, ?, 'agent', ?)",
-      [name, phone, password, req.user.username]
+      "INSERT INTO users (NAME, MOBILE, PASSWORD,share, commission, role, REFER_BY) VALUES (?, ?, ?,?,?, 'agent', ?)",
+      [name, phone, password, share ,commission , req.user.username]
     );
 
     return res.status(200).json({ 
@@ -1352,7 +1352,7 @@ export const AddAgent = async (req, res) => {
 // Update AdminAddUser to support hierarchy
 export const AdminAddUser = async (req, res) => {
   try {
-    const { name, phone, referby, password } = req.body;
+    const { name, phone, password } = req.body;
     const userRole = req.user?.role;
     const createdBy = req.user?.username;
 
@@ -1380,32 +1380,32 @@ export const AdminAddUser = async (req, res) => {
     }
 
     // Validate referby
-    if (referby) {
-      if (referby === phone) {
-        return res.status(400).json({ 
-          message: "ReferBy cannot be same as user's phone" 
-        });
-      }
+    // if (referby) {
+    //   if (referby === phone) {
+    //     return res.status(400).json({ 
+    //       message: "ReferBy cannot be same as user's phone" 
+    //     });
+    //   }
 
-      const [refUser] = await req.db.query(
-        "SELECT * FROM users WHERE MOBILE = ?",
-        [referby]
-      );
+    //   const [refUser] = await req.db.query(
+    //     "SELECT * FROM users WHERE MOBILE = ?",
+    //     [referby]
+    //   );
 
-      if (refUser.length === 0) {
-        return res.status(400).json({ 
-          message: "Invalid ReferBy number" 
-        });
-      }
-    }
+    //   if (refUser.length === 0) {
+    //     return res.status(400).json({ 
+    //       message: "Invalid ReferBy number" 
+    //     });
+    //   }
+    // }
 
     // Insert user with role='user'
     const query = `
-      INSERT INTO users (NAME, MOBILE, REFER_BY, PASSWORD, role, created_by)
-      VALUES (?, ?, ?, ?, 'user', ?)
+      INSERT INTO users (NAME, MOBILE, PASSWORD, role, REFER_BY)
+      VALUES (?, ?, ?, 'user', ?)
     `;
     
-    await req.db.query(query, [name, phone, referby || null, password, createdBy]);
+    await req.db.query(query, [name, phone,  password, createdBy]);
 
     return res.status(200).json({ 
       message: "User added successfully" 
@@ -1422,13 +1422,13 @@ export const GetAllUsers = async (req, res) => {
     const userRole = req.user?.role;
     const username = req.user?.username;
 
-    let query = 'SELECT id, mobile, name, wallet, refer_by, state, IFNULL(role, "user") as role, IFNULL(created_by, "-") as created_by, password FROM users';
+    let query = 'SELECT id, mobile, name, wallet, refer_by, state, IFNULL(role, "user") as role, IFNULL(REFER_BY, "-") as REFER_BY, password FROM users';
     let params = [];
 
     if (userRole === 'admin') {
       query += ' WHERE 1=1';
     } else if (userRole === 'agent') {
-      query += ' WHERE created_by = ? AND IFNULL(role, "user") = "user"';
+      query += ' WHERE REFER_BY = ? AND IFNULL(role, "user") = "user"';
       params.push(username);
     } else {
       return res.status(403).json({ 
@@ -1457,7 +1457,7 @@ export const GetAllAgents = async (req, res) => {
     }
 
     const [rows] = await req.db.query(
-      'SELECT id, mobile, name, wallet, state, IFNULL(role, "user") as role, IFNULL(created_by, "-") as created_by FROM users WHERE IFNULL(role, "user") = "agent"'
+      'SELECT id, mobile, name, wallet,share , commission , state, IFNULL(role, "user") as role, IFNULL(REFER_BY, "-") as REFER_BY FROM users WHERE IFNULL(role, "user") = "agent"'
     );
 
     res.status(200).json(rows);

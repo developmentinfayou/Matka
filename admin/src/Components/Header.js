@@ -176,20 +176,49 @@ const Header = () => {
     fetchUserRole();
   }, []);
 
-  const filteredMenuItems = menuItems.map(item => {
-    if (item.title === "Users" && item.children) {
+  const filteredMenuItems = menuItems
+  // 🔴 STEP 1: Poore menu hide
+  .filter(item => {
+    if (userRole === "agent") {
+      if (
+        item.title === "Manage Result" ||
+        item.title === "User Commission" || item.title === "Payment Gateway" 
+      ) {
+        return false;
+      }
+    }
+    return true;
+  })
+
+  // 🔵 STEP 2: Children filtering
+  .map(item => {
+    if (!item.children) return item;
+
+    // 👤 USERS MENU
+    if (item.title === "Users" && userRole === "agent") {
       return {
         ...item,
-        children: item.children.filter(child => {
-          if (userRole === 'agent' && (child.title === 'Add Agent' || child.title === 'View Agents')) {
-            return false;
-          }
-          return true;
-        })
+        children: item.children.filter(child =>
+          !["Add Agent", "View Agents"].includes(child.title)
+        ),
       };
     }
+
+    // 🎮 GAME MANAGEMENT
+    if (item.title === "Game Management" && userRole === "agent") {
+      return {
+        ...item,
+        children: item.children.filter(child =>
+          ![
+            "Game Name List",
+          ].includes(child.title)
+        ),
+      };
+    }
+
     return item;
   });
+
 
   const toggleDropdown = (menu) => {
     setOpenDropdown(openDropdown === menu ? null : menu);
@@ -212,7 +241,7 @@ const Header = () => {
               className="text-2xl text-white cursor-pointer"
               onClick={() => setIsSidebarOpen(true)}
             />
-            <Link to={"/"} className="text-sm text-white font-semibold">Home</Link>
+            <Link to={"/"} className="text-sm text-white font-semibold">{userRole === 'agent' ? "Agent Dashboard" : "SuperAdmin"}</Link> 
           </div>
 
           <div className="flex justify-center">
@@ -222,6 +251,8 @@ const Header = () => {
               className="h-16 md:h-20 w-auto max-w-none"
             />
           </div>
+
+        
 
           <div className="flex relative items-center gap-3">
             <button

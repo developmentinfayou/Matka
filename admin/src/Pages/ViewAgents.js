@@ -32,6 +32,8 @@ export default function ViewAgents() {
                         <th className="px-4 py-2 border">Name</th>
                         <th className="px-4 py-2 border">Mobile</th>
                         <th className="px-4 py-2 border">Wallet</th>
+                        <th className="px-4 py-2 border">Share</th>
+                        <th className="px-4 py-2 border">Commsion</th>
                         <th className="px-4 py-2 border">State</th>
                         <th className="px-4 py-2 border">Created By</th>
                     </tr>
@@ -43,8 +45,10 @@ export default function ViewAgents() {
                             <td className="px-4 py-2 border">{agent.name}</td>
                             <td className="px-4 py-2 border">{agent.mobile}</td>
                             <td className="px-4 py-2 border">{agent.wallet}</td>
+                            <td className="px-4 py-2 border">{agent.share}%</td>
+                            <td className="px-4 py-2 border">{agent.commission}%</td>
                             <td className="px-4 py-2 border">{agent.state}</td>
-                            <td className="px-4 py-2 border">{agent.created_by}</td>
+                            <td className="px-4 py-2 border">{agent.REFER_BY}</td>
                         </tr>
                     ))}
                 </tbody>

@@ -209,8 +209,9 @@ const [newPassword, setNewPassword] = useState("");
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Mobile</th>
                     <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Role</th>
                     <th>Password</th>
 
 
@@ -219,7 +220,6 @@ const [newPassword, setNewPassword] = useState("");
                     <th>Balance</th>
                     <th>Refer By</th>
                     <th>State</th>
-                    <th>Role</th>
                     <th>Created By</th>
                     <th>Action</th>
                     <th>Remove</th>
@@ -231,8 +231,11 @@ const [newPassword, setNewPassword] = useState("");
                     filteredUsers?.map((user) => (
                       <tr key={user.id}>
                         <td>{user.id}</td>
-                        <td>{user.mobile}</td>
                         <td>{user?.name ? user?.name  : "-"}</td>
+
+                        <td>{user.mobile}</td>
+                        <td>{user.role || 'user'}</td>
+
                         <td className="">
   {user.password}
   <button
@@ -272,8 +275,7 @@ const [newPassword, setNewPassword] = useState("");
                           }
                         }} className="btn btn-sm btn-outline-danger">{user.state}</button></td>
 
-                        <td>{user.role || 'user'}</td>
-                        <td>{user.created_by || '-'}</td>
+                        <td>{user.REFER_BY || '-'}</td>
 
                         <td className="text-center flex flex-col md:flex-row md:justify-center gap-2">
                           <button
