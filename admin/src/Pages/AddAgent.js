@@ -46,10 +46,10 @@ export default function AddAgent() {
                     <input name="password" type="text" value={formData.password} onChange={handleChange} required className="w-full p-2 border rounded-lg" />
                 </div>
 
-                <div>
+                {/* <div>
                     <label className="block text-sm font-medium mb-1">Share</label>
                     <input name="share" type="number" value={formData.share} onChange={handleChange} className="w-full p-2 border rounded-lg" />
-                </div>
+                </div> */}
 
                 <div>
                     <label className="block text-sm font-medium mb-1">Commission</label>
