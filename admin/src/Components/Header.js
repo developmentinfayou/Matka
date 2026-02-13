@@ -93,6 +93,11 @@ const menuItems = [
     link: "/public/administrator/admin-game_load_list",
   },
   {
+    title: "Bets History",
+    icon: <FaCreditCard />,
+    link: "/public/administrator/all-bets-history",
+  },
+  {
     title: "Manage Result",
     icon: <FaTrophy />,
     children: [

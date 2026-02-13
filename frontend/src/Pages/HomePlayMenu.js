@@ -50,7 +50,7 @@ const HomePlayMenu = () => {
           game.playStatus ? "bg-green-500" : "bg-red-500"
         }`}
       >
-        {game.playStatus ? "Open" : "Timed Out"}
+        {game.playStatus ? "Active" : "Timed Out"}
       </span>
     </div>
 

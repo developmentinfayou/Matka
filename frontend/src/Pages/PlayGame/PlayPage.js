@@ -75,9 +75,9 @@ const PlayPage = () => {
     { key: "single", label: "Single" },
     { key: "jodi", label: "Jodi" },
     // { key: "manual", label: "Manual" },
-    { key: "singlepatti", label: "Single Patti" },
-    { key: "doublepatti", label: "Double Patti" },
-    { key: "harraf", label: "Triple Patti" },
+    { key: "patti", label: "Patti" },
+    // { key: "doublepatti", label: "Double Patti" },
+    // { key: "harraf", label: "Triple Patti" },
     // { key: "crossing", label: "Crossing" },
     // { key: "copy", label: "Copy Paste" },
   ];
@@ -118,15 +118,15 @@ const PlayPage = () => {
 
           {/* {active === "manual" && <Manual />} */}
 
-          {active === "singlepatti" && <SinglePatti />}
+          {active === "patti" && <SinglePatti />}
 
-          {active === "doublepatti" && <DoublePatti />}
+          {/* {active === "doublepatti" && <DoublePatti />} */}
 
-          {active === "harraf" && <Haraf />}
+          {/* {active === "harraf" && <Haraf />} */}
 
-          {active === "crossing" && <Crossing />}
+          {/* {active === "crossing" && <Crossing />} */}
 
-          {active === "copy" && <CopyPaste />}
+          {/* {active === "copy" && <CopyPaste />} */}
         </div>
 
 

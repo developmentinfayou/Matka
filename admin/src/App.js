@@ -36,6 +36,7 @@ import CommissionPayList from './Pages/CommissionPayList';
 import EditWhatsApp from './Components/EditWhatsapp';
 import AddAgent from './Pages/AddAgent';
 import ViewAgents from './Pages/ViewAgents';
+import BetHistoryList from './Pages/BetHistoryList';
 
 
 
@@ -60,6 +61,8 @@ function App() {
 
 
           <Route path="admin-game_load_list" element={<GameLoad />} />
+          <Route path="all-bets-history" element={<BetHistoryList />} />
+
           <Route path="game/declare-result-list" element={<DeclareResultList />} />
           <Route path="game/winning-report-list" element={<WinningReportList />} />
 

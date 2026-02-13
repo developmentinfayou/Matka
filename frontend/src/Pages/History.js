@@ -148,7 +148,7 @@ const History = () => {
                           onClick={() => handleDeleteBet(bet.id)}
                           disabled={loading}
                         >
-                          {loading ? "..." : "Delete"}
+                          {loading ? "..." : "Edit"}
                         </button>
                       </td>
                     )}

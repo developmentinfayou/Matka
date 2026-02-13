@@ -35,7 +35,7 @@ const WalletHistory = () => {
   return (
     <div>
       <div>
-      <h2 className="text-xl text-center font-bold mb-3">Wallet History</h2>
+      <h2 className="text-xl text-center font-bold mb-3">Account Stmt. </h2>
       {accounts?.length === 0 ? (
         <p>No Wallet data found.</p>
       ) : (

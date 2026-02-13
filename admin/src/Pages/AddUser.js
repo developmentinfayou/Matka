@@ -9,11 +9,17 @@ export default function AddUser() {
     };
 
     const [formData, setFormData] = useState({
-        name: "",
-        phone: "",
+        name:"",
+        phone:"",
+        singleBhav:"",
+        jodiBhav:"",
+        pattiBhav:"",
+        singleRate:"",
+        jodiRate:"",
+        pattiRate:"",
         // referby: "",
-        dob: "",
-        password: ""  // new password field
+        dob:"",
+        password:""  // new password field
     });
 
     const [loading, setLoading] = useState(false);
@@ -101,6 +107,97 @@ export default function AddUser() {
                         className="w-full p-2 border rounded-lg"
                     />
                 </div>
+
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">Single Bhav</label>
+                    <input
+                        name="singleBhav"
+                        type="number"
+                        placeholder="Enter Single Bhav"
+                        value={formData.singleBhav}
+                        onChange={handleChange}
+                        required
+                        className="w-full p-2 border rounded-lg"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">Jodi Bhav</label>
+                    <input
+                        name="jodiBhav"
+                        type="number"
+                        placeholder="Enter Jodi Bhav"
+                        value={formData.jodiBhav}
+                        onChange={handleChange}
+                        required
+                        className="w-full p-2 border rounded-lg"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">Patti Bhav</label>
+                    <input
+                        name="pattiBhav"
+                        type="number"
+                        placeholder="Enter Patti Bhav"
+                        value={formData.pattiBhav}
+                        onChange={handleChange}
+                        required
+                        className="w-full p-2 border rounded-lg"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">Single Rate</label>
+                    <input
+                        name="singleRate"
+                        type="number"
+                        placeholder="Enter Single Rate"
+                        value={formData.singleRate}
+                        onChange={handleChange}
+                        required
+                        className="w-full p-2 border rounded-lg"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">Jodi Rate</label>
+                    <input
+                        name="jodiRate"
+                        type="number"
+                        placeholder="Enter Jodi Rate"
+                        value={formData.jodiRate}
+                        onChange={handleChange}
+                        required
+                        className="w-full p-2 border rounded-lg"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">Patti Rate</label>
+                    <input
+                        name="pattiRate"
+                        type="number"
+                        placeholder="Enter Patti Rate"
+                        value={formData.pattiRate}
+                        onChange={handleChange}
+                        required
+                        className="w-full p-2 border rounded-lg"
+                    />
+                </div>
+
+             
+
+
+
+
+
+
+
+
+
+
 
                 {/* <div>
                     <label className="block text-sm font-medium mb-1">Refer By (Optional)</label>

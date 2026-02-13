@@ -32,57 +32,59 @@ const HelpPage = () => {
     <div className="w-full min-h-screen bg-gray-50 py-6 px-4">
       {/* Title */}
       <h1 className="text-center text-xl font-bold text-red-600 mb-4">
-        💥 KHELO MATKA HELP & SUPPORT 💥
+        💥 888 Solutions HELP & SUPPORT 💥
       </h1>
 
       {/* Info Card */}
       <div className="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-4">
-        <p className="text-center text-sm text-yellow-700 font-semibold mb-3">
-          🔥 Min Deposit: Rs. 100 | Min Withdraw: Rs. 1000 | रेट 10 के 980 🔥
-        </p>
+  <p className="text-center text-sm text-yellow-700 font-semibold mb-3">
+    🔥 Min Deposit: Rs. 100 | Min Withdraw: Rs. 1000 | Rate 10 for 980 🔥
+  </p>
 
-        <p className="text-center text-base font-semibold text-green-700 mb-4">
-          👽 गेम कैसे खेलनी है जानिए 👽
-        </p>
+  <p className="text-center text-base font-semibold text-green-700 mb-4">
+    👽 Learn How to Play the Game 👽
+  </p>
 
-        {/* Game Rule 1 */}
-        <p className="mb-3 text-gray-700 leading-relaxed">
-          🔥 सभी गेम मैं 1 से 100 Jodi मैं से कोई एक Jodi आता है अगर आपने वही
-          लगाया हुआ है तो आपको 98 गुणा पैसे मिलेंगे।
-        </p>
+  {/* Game Rule 1 */}
+  <p className="mb-3 text-gray-700 leading-relaxed">
+    🔥 In every game, one Jodi is selected from 1 to 100. If you have placed
+    your bet on the same Jodi that appears in the result, you will receive 98x
+    your money.
+  </p>
 
-        {/* Game Rule 2 */}
-        <p className="mb-3 text-gray-700 leading-relaxed">
-          🔥 जैसे आपने कोई Jodi पर 10 रुपए लगाए हैं और जिस जोड़ी पर आपने पैसे
-          लगाए हैं वही Result आता है तो आपको 10 रुपये का 980 रुपये मिलेगा।
-        </p>
+  {/* Game Rule 2 */}
+  <p className="mb-3 text-gray-700 leading-relaxed">
+    🔥 For example, if you place 10 rupees on a Jodi and that same Jodi appears
+    in the result, you will receive 980 rupees for your 10 rupees.
+  </p>
 
-        {/* Game Rule 3 */}
-        <p className="mb-3 text-gray-700 leading-relaxed">
-          🔥 आप कितने भी नंबर लगा सकते हो, बस आपका पास होना चाइए और पास होते ही
-          पैसा आपके वॉलेट मैं आ जायेगा।
-        </p>
+  {/* Game Rule 3 */}
+  <p className="mb-3 text-gray-700 leading-relaxed">
+    🔥 You can place bets on as many numbers as you want. You just need to win,
+    and once you win, the money will be credited to your wallet.
+  </p>
 
-        {/* Video Tutorial */}
-        <div className="text-center mt-6 hidden">
-          <p className="text-sm text-blue-600 font-medium mb-2">
-            👇👽 DEPOSIT AND WITHDRAW सीखने के लिए Video आइकन पे क्लिक करें 👽
-          </p>
-          <button className="bg-red-500 text-white px-5 py-2 rounded shadow hover:bg-red-600">
-            🎥 Watch Tutorial
-          </button>
-          
-          {whatsapp && (
-            <button
-              onClick={openWhatsApp}
-              className="flex items-center mt-2 gap-2 mx-auto bg-green-500 text-white px-3 py-3 rounded shadow hover:bg-green-600"
-            >
-              <BsWhatsapp size={22} />
-              
-            </button>
-          )}
-        </div>
-      </div>
+  {/* Video Tutorial */}
+  <div className="text-center mt-6 hidden">
+    <p className="text-sm text-blue-600 font-medium mb-2">
+      👇👽 Click the Video icon to learn DEPOSIT and WITHDRAW 👽
+    </p>
+
+    <button className="bg-red-500 text-white px-5 py-2 rounded shadow hover:bg-red-600">
+      🎥 Watch Tutorial
+    </button>
+
+    {whatsapp && (
+      <button
+        onClick={openWhatsApp}
+        className="flex items-center mt-2 gap-2 mx-auto bg-green-500 text-white px-3 py-3 rounded shadow hover:bg-green-600"
+      >
+        <BsWhatsapp size={22} />
+      </button>
+    )}
+  </div>
+</div>
+
     </div>
   );
 };

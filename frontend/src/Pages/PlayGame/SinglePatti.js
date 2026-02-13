@@ -11,6 +11,51 @@ const SinglePatti = () => {
   const [totalPoints, setTotalPoints] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  const [digits, setDigits] = useState(["", "", ""]);
+const [point, setPoint] = useState("");
+
+
+const handleDigitChange = (index, value) => {
+  const updated = [...digits];
+
+  // Reset next digits when previous changes
+  if (index === 0) {
+    updated[1] = "";
+    updated[2] = "";
+  }
+  if (index === 1) {
+    updated[2] = "";
+  }
+
+  updated[index] = value;
+  setDigits(updated);
+};
+
+
+const getOptions = (position) => {
+  if (position === 0) {
+    return Array.from({ length: 8 }, (_, i) => i + 1); 
+    // 1-8 tak hi, kyunki aage 2 digits increasing chahiye
+  }
+
+  if (position === 1 && digits[0]) {
+    return Array.from(
+      { length: 9 - digits[0] },
+      (_, i) => Number(digits[0]) + i + 1
+    );
+  }
+
+  if (position === 2 && digits[1]) {
+    return Array.from(
+      { length: 9 - digits[1] },
+      (_, i) => Number(digits[1]) + i + 1
+    );
+  }
+
+  return [];
+};
+
+
   // Generate 120 Single Patti numbers (12 rows × 10 columns)
   const generateSinglePattiNumbers = () => {
     const numbers = [];
@@ -40,37 +85,39 @@ const SinglePatti = () => {
   }, [bets]);
 
   const handlePlaceBet = async () => {
-    const filledBets = bets
-      .map((val, index) => ({
-        number: singlePattiNumbers[index],
-        value: val,
-      }))
-      .filter((item) => item.value.trim() !== "");
-
-    if (filledBets.length === 0) {
-      toast.error("Please place at least one bet");
+    if (digits.includes("")) {
+      toast.error("Please select 3 digits");
       return;
     }
-
-    console.log("Filled Bets:", filledBets);
-
+  
+    if (!point || Number(point) <= 0) {
+      toast.error("Enter valid points");
+      return;
+    }
+  
+    const selectedNumber = digits.join("");
+  
     try {
       setLoading(true);
-      const res = await axiosInstance.post(`${backUrl}/api/bet-game-singlepatti`, {
-        filledBets,
+  
+      await axiosInstance.post(`${backUrl}/api/bet-game-singlepatti`, {
+        number: selectedNumber,
         gameId,
-        totalPoints,
+        points: point,
       });
-      console.log("API Response:", res?.data);
+  
       toast.success("Bet Placed Successfully ✅");
-      window.location.reload();
+  
+      setDigits(["", "", ""]);
+      setPoint("");
+  
     } catch (err) {
-      console.error("API Error:", err);
       toast.error(err.response?.data?.message || "Error placing bet");
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div>
@@ -80,44 +127,69 @@ const SinglePatti = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-10 gap-2">
-        {Array.from({ length: 120 }).map((_, i) => {
-          const number = singlePattiNumbers[i];
+<div className="text-center my-1">
+     <span> Choose Patti Number</span>
+     </div>
 
-          return (
-            <div
-              key={i}
-              className="flex flex-col items-center justify-center gap-1"
-            >
-              {/* Number */}
-              <div className="number bg-gradient-to-l from-[#c31432] to-[#240b36] text-white flex items-center justify-center w-full h-[52px] border border-[#c31432] text-center">
-                {number}
-              </div>
+      <div className="flex gap-2 mb-4 justify-center">
 
-              {/* Input */}
-              <input
-                type="number"
-                inputMode="numeric"
-                min="0"
-                value={bets[i]}
-                onWheel={(e) => e.target.blur()}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  if (val === "" || Number(val) >= 0) {
-                    handleInputChange(i, val);
-                  }
-                }}
-                onKeyDown={(e) => {
-                  if (["e", "E", "+", "-"].includes(e.key)) {
-                    e.preventDefault();
-                  }
-                }}
-                className="w-full h-[33px] text-center border bg-transparent focus:outline-none"
-              />
-            </div>
-          );
-        })}
-      </div>
+   
+
+  {/* First Digit */}
+  <select
+    value={digits[0]}
+    onChange={(e) => handleDigitChange(0, e.target.value)}
+    className="border p-2"
+  >
+    <option value="">Select</option>
+    {getOptions(0).map((num) => (
+      <option key={num} value={num}>{num}</option>
+    ))}
+  </select>
+
+  {/* Second Digit */}
+  <select
+    value={digits[1]}
+    onChange={(e) => handleDigitChange(1, e.target.value)}
+    className="border p-2"
+    disabled={!digits[0]}
+  >
+    <option value="">Select</option>
+    {getOptions(1).map((num) => (
+      <option key={num} value={num}>{num}</option>
+    ))}
+  </select>
+
+  {/* Third Digit */}
+  <select
+    value={digits[2]}
+    onChange={(e) => handleDigitChange(2, e.target.value)}
+    className="border p-2"
+    disabled={!digits[1]}
+  >
+    <option value="">Select</option>
+    {getOptions(2).map((num) => (
+      <option key={num} value={num}>{num}</option>
+    ))}
+  </select>
+
+
+
+
+</div>
+
+<div className="flex items-center justify-center">
+<div className="border w-full p-2 h-10">{digits.join("")}</div>
+
+  <input
+  type="number"
+  placeholder="Enter Points"
+  value={point}
+  min="1"
+  onChange={(e) => setPoint(e.target.value)}
+  className="border p-2 w-full h-10"
+/>
+</div>
 
       {/* Place Bet Button */}
       <button
