@@ -90,7 +90,8 @@ const startServer = async () => {
     try {
         const [rows] = await pool.query('SELECT 1 + 1 AS result');
         console.log('✅ MySQL Connected:', rows[0].result);
-
+// ek change 
+        await pool.query("SET time_zone = '+05:30'");
 
         // 👇 Yahan cronjobs initialize kar do
         setupGameCronJobs(pool);
