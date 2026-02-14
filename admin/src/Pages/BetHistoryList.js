@@ -87,6 +87,18 @@ const baharHaraf = groupByType(["BaharHaraf"]);
 
   if (loading) return <p className="p-4">Loading bets...</p>;
 
+
+        const formatIST = (dateString) => {
+  return new Date(dateString.replace(" ", "T")).toLocaleString("en-IN", {
+    timeZone: "Asia/Kolkata",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+};
   return (
     <div className="p-4 space-y-10">
 
@@ -163,7 +175,7 @@ const baharHaraf = groupByType(["BaharHaraf"]);
               <td className="px-4 py-2 border">{bet.type}</td>
               <td className="px-4 py-2 border">{bet.game}</td>
               <td className="px-4 py-2 border">
-                {bet.date_time}
+                 {formatIST(bet.date_time)}
               </td>
               <td
                 className={`px-4 py-2 border font-semibold ${
