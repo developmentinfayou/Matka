@@ -65,6 +65,10 @@ const getIndiaTime = (req, res) => {
         const istString =
             istDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) + " IST";
 
+            console.log(new Date());
+console.log(new Date().toString());
+
+
         res.status(200).json({
             success: true,
             formattedTime,

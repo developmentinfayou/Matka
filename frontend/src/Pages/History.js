@@ -50,6 +50,19 @@ const History = () => {
       ? bets.filter((b) => !b.status)
       : bets.filter((b) => b.status);
 
+      const formatIST = (dateString) => {
+  return new Date(dateString.replace(" ", "T")).toLocaleString("en-IN", {
+    timeZone: "Asia/Kolkata",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+};
+
+
   return (
     <div>
       <div className="bg-white p-3 rounded shadow-sm">
@@ -111,14 +124,7 @@ const History = () => {
                   <tr key={bet.id}>
                     <td>{index + 1}</td>
                     <td>
-                      {new Date(bet.date_time).toLocaleString("en-IN", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        hour12: true,
-                      })}
+                   {formatIST(bet.date_time)}
                     </td>
                     <td>{bet.game}</td>
                     <td>{bet.type}</td>
