@@ -81,10 +81,10 @@ const AddPoint = () => {
 
         {/* Action buttons */}
         <div className='flex gap-1 '>
-          <button onClick={handleAddPoints} className="w-full bg-gradient-to-l from-[#c31432] to-[#240b36] text-white py-2 rounded ">
+          <button onClick={handleAddPoints} className="w-full bg-gradient-to-l from-[#000814] to-[#000814] text-white py-2 rounded ">
             Add Points
           </button>
-          <button onClick={() => setShowPopup(true)} className="w-full hidden bg-gradient-to-l from-[#c31432] to-[#240b36] text-white py-2 rounded">
+          <button onClick={() => setShowPopup(true)} className="w-full hidden bg-gradient-to-l from-[#000814] to-[#000814] text-white py-2 rounded">
             Transfer Points
           </button>
         </div>

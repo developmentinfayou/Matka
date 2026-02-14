@@ -214,7 +214,7 @@ const Withdraw = () => {
       <button
         onClick={handleWithdraw}
         disabled={loading}
-        className="w-full bg-gradient-to-l from-[#c31432] to-[#240b36] btn  text-white py-2 rounded hover:bg-[#1a3a4e]"
+        className="w-full bg-gradient-to-l from-[#000814] to-[#000814] btn  text-white py-2 rounded hover:bg-[#1a3a4e]"
       >
          {loading ? "Processing..." : "Withdraw"}
       </button>

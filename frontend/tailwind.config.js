@@ -20,10 +20,10 @@ module.exports = {
       },
       backgroundImage: {
         'main': 'linear-gradient(to right, #F15A24, #F59018, #FEF903)',
-         'theme': 'linear-gradient(to left, #c31432, #240b36)',
+         'theme': 'linear-gradient(to left, #000814, #000814)',
       },
       backgroundColor : {
-        "theme" : "#c31432",
+        "theme" : "#000814",
       }
     },
   },

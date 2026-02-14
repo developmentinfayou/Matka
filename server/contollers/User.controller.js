@@ -693,7 +693,7 @@ export const BetGameSinglePatti = async (req, res) => {
       bet.number,
       Number(bet.value),
       gameId,
-      "SinglePatti",
+      "Patti",
       mobile,
       gameName,
       betDateTime

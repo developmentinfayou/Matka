@@ -221,8 +221,22 @@ export default function ManageGames() {
               <tr key={game.id}>
                 <td className="text-center">{game.ID}</td>
                 <td className="text-center">{game.NAME}</td>
-                <td className="text-center">{game.TIME1}</td>
-                <td className="text-center">{game.TIME2}</td>
+             <td className="text-center">
+             {new Date(`1970-01-01T${game.TIME1}`).toLocaleTimeString('en-US', {
+          hour: 'numeric',
+         minute: '2-digit',
+          hour12: true,
+         })}
+</td>
+
+<td className="text-center">
+        {new Date(`1970-01-01T${game.TIME2}`).toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  })}
+</td>
+
                 <td className="text-center">{game.POSITION}</td>
 
                 <td className="text-center hidden">
@@ -232,7 +246,9 @@ export default function ManageGames() {
                     onChange={() => handleHolidayChange(game.id)}
                   />
                 </td>
-                {game.NAME === "DISAWAR" ? <td>
+                {/* {game.NAME === "DISAWAR" ? <td> */}
+                {!game.NAME ? <td>
+
                   <Button variant="warning" size="sm" onClick={() => handleEdit(game.ID)}>
                     <i className="fa fa-pen"></i>
                   </Button>{" "}

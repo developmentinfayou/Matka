@@ -66,7 +66,7 @@ const Single = () => {
             key={i}
             className="flex flex-col items-center justify-center gap-1"
           >
-            <div className="number bg-gradient-to-l from-[#c31432] to-[#240b36] text-white flex items-center justify-center w-full h-[52px] border border-[#c31432] text-center">
+            <div className="number bg-gradient-to-l from-[#000814] to-[#000814] text-white flex items-center justify-center w-full h-[52px] border border-[#c31432] text-center">
               {i}
             </div>
 

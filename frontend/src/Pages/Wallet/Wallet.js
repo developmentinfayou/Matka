@@ -15,7 +15,7 @@ export default function Wallet() {
     //   <div className="flex">
     //     <button
     //       className={`flex-1 py-2 text-center font-semibold ${activeTab === "add"
-    //           ? "border-b-2 border-white bg-gradient-to-l from-[#c31432] to-[#240b36] text-white"
+    //           ? "border-b-2 border-white bg-gradient-to-l from-[#000814] to-[#000814] text-white"
     //           : "bg-gray-100 text-gray-700"
     //         }`}
     //       onClick={() => setActiveTab("add")}
@@ -24,7 +24,7 @@ export default function Wallet() {
     //     </button>
     //     <button
     //       className={`flex-1 py-2 text-center font-semibold ${activeTab === "withdraw"
-    //           ? "border-b-2 border-white bg-gradient-to-l from-[#c31432] to-[#240b36] text-white"
+    //           ? "border-b-2 border-white bg-gradient-to-l from-[#000814] to-[#000814] text-white"
     //           : "bg-gray-100 text-gray-700"
     //         }`}
     //       onClick={() => setActiveTab("withdraw")}

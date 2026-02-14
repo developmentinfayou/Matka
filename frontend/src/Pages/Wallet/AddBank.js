@@ -157,7 +157,7 @@ const AddBank = () => {
                     {/* Submit Button */}
                     <button
                         type="submit"
-                        className="w-full bg-gradient-to-l from-[#c31432] to-[#240b36] text-white py-2 rounded hover:bg-[#1a3a4e]"
+                        className="w-full bg-gradient-to-l from-[#000814] to-[#000814] text-white py-2 rounded hover:bg-[#1a3a4e]"
                     >
                         Save Details
                     </button>

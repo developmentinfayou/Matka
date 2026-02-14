@@ -50,7 +50,7 @@ export default function Login() {
 
       <div className="max-w-xl relative mx-auto p-6 bg-white rounded-2xl shadow-lg">
         
-        <div className="border-dotted border-2 border-black text-center ring-offset-4 mb-4 mx-3 ring-4 ring-gradient-to-l from-[#c31432] to-[#240b36] text-base text-red-500 bg-white font-medium px-1 rounded-md">
+        <div className="border-dotted border-2 border-black text-center ring-offset-4 mb-4 mx-3 ring-4 ring-gradient-to-l from-[#000814] to-[#000814] text-base text-red-500 bg-white font-medium px-1 rounded-md">
           <h2>फरीदाबाद , गाजियाबाद , गली और दिसावर गेम खेलने के वाले नीचे से एप्लीकेशन डाउनलोड करे । यहां मिलता है आपको सबसे ज्यादा रेट 10 के 980 और सबसे फास्ट एंड सैफ पेमेंट ।</h2>
         </div>
 

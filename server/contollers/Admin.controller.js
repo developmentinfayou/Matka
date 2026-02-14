@@ -1352,7 +1352,7 @@ export const AddAgent = async (req, res) => {
 // Update AdminAddUser to support hierarchy
 export const AdminAddUser = async (req, res) => {
   try {
-    const { name, phone, password } = req.body;
+    const { name, phone, password, singleBhav ,jodiBhav, pattiBhav ,singleRate,jodiRate,pattiRate  } = req.body;
     const userRole = req.user?.role;
     const createdBy = req.user?.username;
 
@@ -1401,11 +1401,11 @@ export const AdminAddUser = async (req, res) => {
 
     // Insert user with role='user'
     const query = `
-      INSERT INTO users (NAME, MOBILE, PASSWORD, role, REFER_BY)
-      VALUES (?, ?, ?, 'user', ?)
+      INSERT INTO users (NAME, MOBILE, PASSWORD, role, REFER_BY ,singleBhav,jodiBhav, pattiBhav ,singleRate,jodiRate,pattiRate)
+      VALUES (?, ?, ?, 'user', ?,?,?,?,?,?,?)
     `;
     
-    await req.db.query(query, [name, phone,  password, createdBy]);
+    await req.db.query(query, [name, phone,  password, createdBy,singleBhav,jodiBhav, pattiBhav ,singleRate,jodiRate,pattiRate]);
 
     return res.status(200).json({ 
       message: "User added successfully" 

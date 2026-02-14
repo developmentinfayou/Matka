@@ -71,8 +71,16 @@ const HomePlayMenu = () => {
 
         {/* OPEN / CLOSE */}
         <div className="text-base font-semibold text-gray-800 mb-3 leading-tight">
-          <div>OPEN: <span className="font-normal">{game.TIME1}</span></div>
-          <div>CLOSE: <span className="font-normal">{game.TIME2}</span></div>
+          <div>OPEN: <span className="font-normal">{new Date(`1970-01-01T${game?.TIME1}`).toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  })}</span></div>
+          <div>CLOSE: <span className="font-normal">{new Date(`1970-01-01T${game?.TIME2}`).toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  })}</span></div>
         </div>
 
         {/* ACTION ROW */}
@@ -82,7 +90,7 @@ const HomePlayMenu = () => {
             to={game.playStatus ? `/play-game/${game.ID}` : "#"}
             className={`px-7 py-2.5 rounded-md text-white font-semibold text-sm ${
               game.playStatus
-                ? "bg-gradient-to-l from-[#c31432] to-[#240b36] hover:opacity-90"
+                ? "bg-gradient-to-l from-[#000814] to-[#000814] hover:opacity-90"
                 : "bg-gray-400 cursor-not-allowed"
             }`}
           >

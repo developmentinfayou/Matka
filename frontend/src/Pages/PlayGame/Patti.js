@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axiosInstance from "../../Utils/axiosInstance";
 import { toast } from "react-toastify";
 
-const SinglePatti = () => {
+const Patti = () => {
   const backUrl = process.env.REACT_APP_BACKEND_URL;
   const gameId = useParams().id;
 
@@ -71,13 +71,13 @@ const getOptions = (position) => {
     return numbers.sort().slice(0, 120);
   };
 
-  const singlePattiNumbers = generateSinglePattiNumbers();
+  // const singlePattiNumbers = generateSinglePattiNumbers();
 
-  const handleInputChange = (index, value) => {
-    const updatedBets = [...bets];
-    updatedBets[index] = value;
-    setBets(updatedBets);
-  };
+  // const handleInputChange = (index, value) => {
+  //   const updatedBets = [...bets];
+  //   updatedBets[index] = value;
+  //   setBets(updatedBets);
+  // };
 
   useEffect(() => {
     const total = bets.reduce((sum, val) => sum + (parseInt(val) || 0), 0);
@@ -101,10 +101,15 @@ const getOptions = (position) => {
       setLoading(true);
   
       await axiosInstance.post(`${backUrl}/api/bet-game-singlepatti`, {
-        number: selectedNumber,
-        gameId,
-        points: point,
-      });
+  gameId,
+  totalPoints: Number(point),
+  filledBets: [
+    {
+      number: selectedNumber,
+      value: Number(point),
+    }
+  ]
+});
   
       toast.success("Bet Placed Successfully ✅");
   
@@ -205,4 +210,4 @@ const getOptions = (position) => {
   );
 };
 
-export default SinglePatti;
+export default Patti;

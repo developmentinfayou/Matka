@@ -79,21 +79,33 @@ console.log(result, "disawr result")
                 <span className="block font-light bg-white text-black rounded-b-none px-[1px] rounded-md">
                   Open Time
                 </span>
-                <span className="block">{market?.TIME1}</span>
+                <span className="block">{new Date(`1970-01-01T${market?.TIME1}`).toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  })}</span>
               </li>
               <li>|</li>
               <li className="text-center">
                 <span className="block font-light bg-white text-black rounded-b-none px-[1px] rounded-md">
                   Close Time
                 </span>
-                <span className="block">{market?.TIME2}</span>
+                <span className="block">{new Date(`1970-01-01T${market?.TIME2}`).toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  })}</span>
               </li>
               <li>|</li>
               <li className="text-center">
                 <span className="block font-light bg-white text-black rounded-b-none px-[1px] rounded-md">
                   Result Time
                 </span>
-                <span className="block">{market?.RTIME}</span>
+                <span className="block">{new Date(`1970-01-01T${market?.RTIME}`).toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  })}</span>
               </li>
             </ul>
           </div>

@@ -47,7 +47,7 @@ const Header = () => {
 
 
 
-      <div className="w-full bg-gradient-to-l from-[#c31432] to-[#240b36] px-3 shadow-md">
+      <div className="w-full bg-gradient-to-l from-[#000814] to-[#000814] px-3 shadow-md">
         <div className="flex justify-between items-center">
           {/* Left: Hamburger + Badge + Home */}
           <div className="flex items-center gap-2">
@@ -96,10 +96,10 @@ const Header = () => {
       {isSidebarOpen && (
         <div className="fixed inset-0 bg-blak bg-opacity-40 z-40" onClick={() => setIsSidebarOpen(false)}>
           <div
-            className="absolute top-0 left-0 w-64 h-full bg-gradient-to-l from-[#c31432] to-[#240b36] z-50 shadow-md"
+            className="absolute top-0 left-0 w-64 h-full bg-gradient-to-l from-[#000814] to-[#000814] z-50 shadow-md"
             onClick={(e) => e.stopPropagation()} // prevent sidebar from closing when clicked inside
           >
-            <div className="profileimage relative bg-gradient-to-l from-[#c31432] to-[#240b36] p-4 rounded shadow-md w-full max-w-xs">
+            <div className="profileimage relative bg-gradient-to-l from-[#000814] to-[#000814] p-4 rounded shadow-md w-full max-w-xs">
               {/* Close Button */}
               <button onClick={() => setIsSidebarOpen(false)} type="button" className="absolute top-2 right-2 text-lg text-white bg-black hover:bg-gray-800 rounded-full w-8 h-8 flex items-center justify-center">
                 ×

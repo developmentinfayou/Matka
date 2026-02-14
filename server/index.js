@@ -31,6 +31,56 @@ app.use('/api', userRoutes);
 app.use('/admin', adminRoutes);
 
 
+// const getIndiaTime = (req, res) => {
+//     const istTime = new Date().toLocaleString("en-IN", {
+//         timeZone: "Asia/Kolkata",
+//     });
+//     res.json({ istTime });
+// };
+
+const getIndiaTime = (req, res) => {
+  try {
+        const now = new Date();
+
+        // Force India Timezone
+        const istDate = new Date(
+            now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+        );
+
+        // Format: 14/02/2026, 04:18 pm
+        const day = String(istDate.getDate()).padStart(2, "0");
+        const month = String(istDate.getMonth() + 1).padStart(2, "0");
+        const year = istDate.getFullYear();
+
+        let hours = istDate.getHours();
+        const minutes = String(istDate.getMinutes()).padStart(2, "0");
+        const ampm = hours >= 12 ? "pm" : "am";
+
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        hours = String(hours).padStart(2, "0");
+
+        const formattedTime = `${day}/${month}/${year}, ${hours}:${minutes} ${ampm}`;
+
+        const istString =
+            istDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) + " IST";
+
+        res.status(200).json({
+            success: true,
+            formattedTime,
+            istString
+        });
+
+    } catch (error) {
+        console.error("Error getting India time:", error);
+        res.status(500).json({ success: false, message: "Failed to get time" });
+    }
+}
+
+app.get("/getIndiaTime", getIndiaTime);
+
+
+
 // Start server after testing DB connection
 const startServer = async () => {
     try {

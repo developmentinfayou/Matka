@@ -60,26 +60,16 @@
 
 // export default PlayPage
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Jodi from './Jodi';
-import Manual from './Manual';
-import Haraf from './Haraf';
 import Single from './Single'; 
-import Crossing from './Crossing';
-import CopyPaste from './CopyPaste';
-import SinglePatti from './SinglePatti';
-import DoublePatti from './DoublePatti';
+import Patti from './Patti';
 
 const PlayPage = () => {
   const tabs = [
     { key: "single", label: "Single" },
     { key: "jodi", label: "Jodi" },
-    // { key: "manual", label: "Manual" },
     { key: "patti", label: "Patti" },
-    // { key: "doublepatti", label: "Double Patti" },
-    // { key: "harraf", label: "Triple Patti" },
-    // { key: "crossing", label: "Crossing" },
-    // { key: "copy", label: "Copy Paste" },
   ];
   
   const [active, setActive] = useState("single");
@@ -97,7 +87,7 @@ const PlayPage = () => {
                 key={t.key}
                 onClick={() => setActive(t.key)}
                 className={`flex-1 text-sm md:text-base px-3 py-2 text-center transition-colors
-                  ${isActive ? "bg-gradient-to-l from-[#c31432] to-[#240b36] text-white font-semibold" : "bg-transparent text-gray-700 hover:bg-gray-100"}`}
+                  ${isActive ? "bg-gradient-to-l from-[#000814] to-[#000814] text-white font-semibold" : "bg-transparent text-gray-700 hover:bg-gray-100"}`}
                 aria-pressed={isActive}
                 role="tab"
                 aria-selected={isActive}
@@ -118,7 +108,7 @@ const PlayPage = () => {
 
           {/* {active === "manual" && <Manual />} */}
 
-          {active === "patti" && <SinglePatti />}
+          {active === "patti" && <Patti />}
 
           {/* {active === "doublepatti" && <DoublePatti />} */}
 

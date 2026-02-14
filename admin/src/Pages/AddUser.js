@@ -57,6 +57,12 @@ export default function AddUser() {
             setFormData({
                 name: "",
                 phone: "",
+                singleBhav:"",
+                jodiBhav:"",
+                pattiBhav:"",
+                singleRate:"",
+                jodiRate:"",
+                pattiRate:"",
                 // referby: "",
                 dob: "",
                 password: generatePassword(),
@@ -108,8 +114,8 @@ export default function AddUser() {
                     />
                 </div>
 
-
-                <div>
+<div className="row">
+                <div className="col-4">
                     <label className="block text-sm font-medium mb-1">Single Bhav</label>
                     <input
                         name="singleBhav"
@@ -122,7 +128,7 @@ export default function AddUser() {
                     />
                 </div>
 
-                <div>
+                <div className="col-4">
                     <label className="block text-sm font-medium mb-1">Jodi Bhav</label>
                     <input
                         name="jodiBhav"
@@ -135,7 +141,7 @@ export default function AddUser() {
                     />
                 </div>
 
-                <div>
+                <div className="col-4">
                     <label className="block text-sm font-medium mb-1">Patti Bhav</label>
                     <input
                         name="pattiBhav"
@@ -147,8 +153,11 @@ export default function AddUser() {
                         className="w-full p-2 border rounded-lg"
                     />
                 </div>
+                </div>
 
-                <div>
+                <div className="row">
+
+                <div className="col-4">
                     <label className="block text-sm font-medium mb-1">Single Rate</label>
                     <input
                         name="singleRate"
@@ -161,7 +170,7 @@ export default function AddUser() {
                     />
                 </div>
 
-                <div>
+                <div className="col-4">
                     <label className="block text-sm font-medium mb-1">Jodi Rate</label>
                     <input
                         name="jodiRate"
@@ -174,7 +183,7 @@ export default function AddUser() {
                     />
                 </div>
 
-                <div>
+                <div className="col-4">
                     <label className="block text-sm font-medium mb-1">Patti Rate</label>
                     <input
                         name="pattiRate"
@@ -186,7 +195,7 @@ export default function AddUser() {
                         className="w-full p-2 border rounded-lg"
                     />
                 </div>
-
+</div>
              
 
 
